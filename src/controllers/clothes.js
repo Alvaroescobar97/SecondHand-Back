@@ -1,4 +1,5 @@
 var Clothes = require('../models/Clothes');
+var User = require('../models/User');
 
 exports.getOneById = async (req, res) => {
     var { id } = req.params;
@@ -18,13 +19,16 @@ exports.getOneById = async (req, res) => {
 
 exports.create = async (req, res) => {
     var { reference, description, price, color, size, category } = req.body;
-
+    var seller = req.userId;
+    
     if (reference && price && size) {
         const clothe = new Clothes({
-            reference, description, price, color, size, category
+            reference, description, price, color, size, category, seller
         });
 
         const clotheSaved = await clothe.save();
+
+        await User.updateOne({_id: seller},{ $push:{clothesForSale: clotheSaved._id}});
 
         return res.status(200).json({ clotheSaved });
     } else {
@@ -41,6 +45,17 @@ exports.list = async (req, res) => {
     }
 
     return res.status(200).json({ clothes });
+
+}
+
+exports.listClothesOfOneUser = async (req, res) => {
+    const user = await User.findById(req.userId, {password: 0}).populate("clothesForSale");
+
+    if (!user.clothesForSale) {
+        return res.status(404).json({ message: "No Clothes For Sale" });
+    }else{
+        return res.status(200).json({ clothesForSale : user.clothesForSale });
+    }
 
 }
 

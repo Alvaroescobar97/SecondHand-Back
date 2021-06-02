@@ -5,7 +5,11 @@ var Schema = mongoose.Schema;
 var UserSchema = Schema({
     name: String,
     email: String,
-    password: String
+    password: String,
+    clothesForSale: [{
+        ref: "Clothes",
+        type:Schema.Types.ObjectId
+    }]
 });
 
 UserSchema.statics.encryptPassword = async (password) =>{

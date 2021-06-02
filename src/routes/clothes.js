@@ -4,6 +4,7 @@ var clothes_routes = express.Router();
 var middlewares = require('../middlewares/verifyToken');
 
 clothes_routes.get('/', clothesController.list);
+clothes_routes.get('/onSale',middlewares.verifyToken, clothesController.listClothesOfOneUser);
 clothes_routes.get('/:id', clothesController.getOneById);
 clothes_routes.post('/create', middlewares.verifyToken ,clothesController.create);
 clothes_routes.put('/:id', middlewares.verifyToken ,clothesController.update);

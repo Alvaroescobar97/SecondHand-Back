@@ -7,7 +7,11 @@ var ClothesSchema = Schema({
     price: mongoose.SchemaTypes.Decimal128,
     color: [String],
     size: String,
-    category: String
+    category: String,
+    seller: {
+        ref: "User",
+        type:Schema.Types.ObjectId
+    }
 });
 
 module.exports = mongoose.model('Clothes', ClothesSchema);
