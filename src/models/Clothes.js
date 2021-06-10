@@ -8,6 +8,7 @@ var ClothesSchema = Schema({
     color: [String],
     size: String,
     category: String,
+    images:[String],
     seller: {
         ref: "User",
         type:Schema.Types.ObjectId
