@@ -7,7 +7,7 @@ exports.getOneById = async (req, res) => {
     var { id } = req.params;
 
     try {
-        var clothe = await Clothes.findById(id);
+        var clothe = await Clothes.findById(id).populate("seller");
         if (!clothe) {
             return res.status(404).json({ message: "The clothe was not found" });
         }
