@@ -163,3 +163,31 @@ exports.getFiles = async (req, res) => {
     }
     return res.status(200).send({ array });
 }
+
+
+exports.buy = async (req, res) => {
+
+    var { id } = req.params;
+    
+    var buyer = req.userId;
+
+    try {
+        const user = await User.findById({_id: buyer}, { password: 0 });
+        if(user){
+            const clothe = await Clothes.findById(id).populate("seller");
+            
+            if(buyer === clothe.seller._id){
+                console.log(clothe.seller._id);
+                console.log(buyer);
+                await Clothes.updateOne({ _id: id }, { $push: { buyer: user._id } });
+                return res.status(200).send({ buyer: user._id });
+            }else{
+                return res.status(500).send({ message: "Seller cant buy his own clothe" });
+            }
+            
+        }
+    } catch (error) {
+        return res.status(404).send({ message: "User not found" });
+    }
+    
+}

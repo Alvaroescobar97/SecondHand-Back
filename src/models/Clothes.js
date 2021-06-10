@@ -12,6 +12,10 @@ var ClothesSchema = Schema({
     seller: {
         ref: "User",
         type:Schema.Types.ObjectId
+    },
+    buyer:{
+        ref: "User",
+        type:Schema.Types.ObjectId
     }
 });
 

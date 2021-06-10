@@ -15,5 +15,7 @@ clothes_routes.put('/:id', middlewares.verifyToken ,clothesController.update);
 clothes_routes.delete('/:id', middlewares.verifyToken ,clothesController.delete);
 clothes_routes.post('/upload-images/:id', [middlewares.verifyToken, md_upload] ,clothesController.upload);
 clothes_routes.get('/get-images/:id', clothesController.getFiles);
+clothes_routes.post('/buy/:id', middlewares.verifyToken ,clothesController.buy);
+
 
 module.exports = clothes_routes;
